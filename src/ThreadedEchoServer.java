@@ -88,8 +88,6 @@ public class ThreadedEchoServer extends JFrame implements Runnable{
 						}
 					}
 				}
-				//System.out.println(threads.get(i).isConnected());
-				//System.out.println(threads.get(i).getInfo());
 				if(threads.get(i).getInfo() == null) {
 					threads.remove(i);
 				}
@@ -130,7 +128,6 @@ public class ThreadedEchoServer extends JFrame implements Runnable{
 		
 		for(int i = 0; i < threads.size(); i++){
 			if(threads.get(i).getPlayer() != null){
-	
 				g.drawString(threads.get(i).getPlayer().getName() + "   :   " + threads.get(i).getPlayer().getX() + ":" + threads.get(i).getPlayer().getY(), 50, 100 + i * 40);
 			}
 		}
