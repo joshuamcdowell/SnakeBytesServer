@@ -69,13 +69,11 @@ public class EchoThread extends Thread {
     		String endString = "$";
     		
     		for(int i = 0; i < p.getBody().size(); i++){
-    			for(int j = 0; j < i; j++){
-        			startString += "^";
-        			endString += "$";
-        		}
     			body += startString;
     			body += p.getBody().get(i).getX() + "#" + p.getBody().get(i).getY();
     			body += endString;
+    			startString += "^";
+        		endString += "$";
     		}
 			out.writeBytes("PMOVE:" + p.getName()+ "*" + p.getSkin() + "=" + p.getX() + ";" + p.getY() + ")" + p.getBody().size() + "%" + body + "\n\r");
 			out.flush();
