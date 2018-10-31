@@ -51,6 +51,13 @@ public class EchoThread extends Thread {
                 else if(line.contains("UPDATE:")){
                 	player.update(line);
                 }
+                else if(line.contains("DEATH:")){
+                	String deadEnemy = line.substring(line.indexOf(":") + 1);
+                	if(player.getName().equals(deadEnemy)){
+                		// Send message to all other clients to remove from enemy list
+                		sendDeathMessage();
+                	}
+                }
                 else {
                     out.writeBytes(line + "\n\r");
                     out.flush();
@@ -60,6 +67,17 @@ public class EchoThread extends Thread {
                 return;
             }
         }
+    }
+    
+    public void sendDeathMessage(){
+    	try {
+    		removePlayer();
+    		System.out.println("sending player death message");
+			out.writeBytes("DEATH:" + player.getName() + "\n\r");
+			out.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
     
     public void sendPlayerInfo(Player p){
@@ -80,6 +98,10 @@ public class EchoThread extends Thread {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+    }
+    
+    public void removePlayer(){
+    	player = new Player(player.getName(), player.getSkin());
     }
     
     public String getInfo() {
