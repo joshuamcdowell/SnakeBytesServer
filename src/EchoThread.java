@@ -67,6 +67,10 @@ public class EchoThread extends Thread {
                 else if (line.contains("SCORE:")) {	//Score info sent!
                 	score = line.substring(line.indexOf(':') + 1);
                 }
+                else if(line.contains("EATEN:")){
+                	snackToRemove = line.substring(line.indexOf(":") + 1);
+                	removeSnack = true;
+                }
                 else {
                     out.writeBytes(line + "\n\r");
                     out.flush();
@@ -78,10 +82,28 @@ public class EchoThread extends Thread {
         }
     }
     
+    public String getRemoveSnack(){
+    	removeSnack = false;
+    	return snackToRemove;
+    }
+    
+    public boolean canRemoveSnack(){
+    	return removeSnack;
+    }
+    
+    public void removeSnack(String snackToRemove){
+    	try {
+    		out.writeBytes("SNACKREMOVE:" + snackToRemove + "\n\r");
+			out.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	
+    }
+    
     public void sendDeathMessage(){
     	try {
     		removePlayer();
-    		System.out.println("sending player death message");
 			out.writeBytes("DEATH:" + player.getName() + "\n\r");
 			out.flush();
 		} catch (IOException e) {
@@ -110,6 +132,10 @@ public class EchoThread extends Thread {
     }
     
     public void sendSnacks(ArrayList<Snack> snacks){
+    	if(player != null){
+    		System.out.println(player.getName() + ":" + snacks.size());
+    	}
+    	
     	if(snacks.size() <= 0){
     		return;
     	}

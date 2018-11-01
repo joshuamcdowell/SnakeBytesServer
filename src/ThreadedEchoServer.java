@@ -99,6 +99,19 @@ public class ThreadedEchoServer extends JFrame implements Runnable{
 				if(newSnack){
 					threads.get(i).sendSnacks(snacks);
 				}
+				// Check if need to remove snack
+				if(threads.get(i).canRemoveSnack()){
+					String snackToRemove = threads.get(i).getRemoveSnack();
+					// Send signal to other players and remove snack from server memory
+					for(int j = 0; j < threads.size(); j++){
+						threads.get(j).removeSnack(snackToRemove);
+					}
+					for(int z = 0; z < snacks.size(); z++){
+						if(snacks.get(z).getID().equals(snackToRemove)){
+							snacks.remove(z);
+						}
+					}
+				}
 				for(int j = 0; j < threads.size(); j++){
 					if(i != j){
 						if(threads.get(i).getPlayer() != null && threads.get(j).getPlayer() != null){	
@@ -167,7 +180,7 @@ public class ThreadedEchoServer extends JFrame implements Runnable{
 			tempName = "";
 			if(threads.get(i).getPlayer() != null) {
 				if (i == 0) {
-					scores.add(Integer.parseInt(threads.get(i).getScore()));
+					scores.add(Integer.parseInt(threads.get(i).getScore().substring(threads.get(i).getScore().indexOf(":") + 1)));
 					scoreNames.add(threads.get(i).getPlayer().getName());
 				}
 				else if(scores.get(i-1) >= Integer.parseInt(threads.get(i).getScore())) {
