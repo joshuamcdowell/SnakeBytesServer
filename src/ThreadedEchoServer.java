@@ -8,6 +8,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.JFrame;
 //RUN THIS ONE
@@ -16,9 +17,13 @@ public class ThreadedEchoServer extends JFrame implements Runnable{
     static final int PORT = 3000;
     private Thread updater;
     private static ArrayList<EchoThread> threads = new ArrayList<EchoThread>();
+    private ArrayList<Snack> snacks = new ArrayList<Snack>();
     
     private int WIDTH = 1280;
     private int HEIGHT = 720;
+    
+    private int maxSnackSize;
+    private boolean newSnack;
     
     private String IP;
 
@@ -35,6 +40,7 @@ public class ThreadedEchoServer extends JFrame implements Runnable{
     	
     	updater.start();
     	
+    	maxSnackSize = 25;
     	
     	// Get IP
     	InetAddress inetAddress;
@@ -79,8 +85,18 @@ public class ThreadedEchoServer extends JFrame implements Runnable{
 	@Override
 	public void run() {
 		while(true) {
+			
+			if(snacks.size() < maxSnackSize){
+				Random rand = new Random();
+				snacks.add(new Snack(rand.nextInt(76) + 2, rand.nextInt(39) + 2));
+				newSnack = true;
+			}
+			
 			System.out.print("");
 			for(int i = 0; i < threads.size(); i++) {
+				if(newSnack){
+					threads.get(i).sendSnacks(snacks);
+				}
 				for(int j = 0; j < threads.size(); j++){
 					if(i != j){
 						if(threads.get(i).getPlayer() != null && threads.get(j).getPlayer() != null){	
@@ -121,7 +137,7 @@ public class ThreadedEchoServer extends JFrame implements Runnable{
 		g.drawString("Leaderboard", 970, 65);
 		g.drawLine(0, 73, WIDTH, 73);
 		
-		g.drawString("IP @: " + IP, 885, 700);
+		g.drawString("IP: " + IP, 895, 700);
 		
 		newFont = new Font("Monospaced", Font.BOLD, 15);
 		g.setFont(newFont);

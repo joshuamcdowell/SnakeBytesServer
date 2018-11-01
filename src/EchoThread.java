@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class EchoThread extends Thread {
     protected Socket socket;
@@ -14,6 +15,9 @@ public class EchoThread extends Thread {
     private boolean connected;
     
     private Player player;
+    
+    private boolean removeSnack;
+    private String snackToRemove;
 
     public EchoThread(Socket clientSocket) {
         this.socket = clientSocket;
@@ -98,6 +102,30 @@ public class EchoThread extends Thread {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+    }
+    
+    public void sendSnacks(ArrayList<Snack> snacks){
+    	if(snacks.size() <= 0){
+    		return;
+    	}
+    	try{
+    		String message = "";
+    		for(int i = 0; i < snacks.size(); i++){
+    			message += "*";
+    			message += snacks.get(i).getID();
+    			message += "#";
+    			message += snacks.get(i).getX();
+    			message += ":";
+    			message += snacks.get(i).getY();
+    			message += "$";
+    		}
+    		if(out != null){
+    			out.writeBytes("SNACKS:" + message + "\n\r");
+        		out.flush();
+    		}
+    	}catch(IOException e){
+    		e.printStackTrace();
+    	}
     }
     
     public void removePlayer(){
