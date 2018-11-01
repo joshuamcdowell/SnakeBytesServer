@@ -26,6 +26,8 @@ public class ThreadedEchoServer extends JFrame implements Runnable{
     private boolean newSnack;
     
     private String IP;
+    private ArrayList<String> scoreNames;
+    private ArrayList<Integer> scores;
 
     public ThreadedEchoServer() {
     	updater = new Thread(this);
@@ -109,6 +111,7 @@ public class ThreadedEchoServer extends JFrame implements Runnable{
 				}
 			}
 			
+			calcScores();
 			render();
 		}
 	}
@@ -145,8 +148,43 @@ public class ThreadedEchoServer extends JFrame implements Runnable{
 		for(int i = 0; i < threads.size(); i++){
 			if(threads.get(i).getPlayer() != null){
 				g.drawString(threads.get(i).getPlayer().getName() + "   :   " + threads.get(i).getPlayer().getX() + ":" + threads.get(i).getPlayer().getY(), 50, 100 + i * 40);
+				g.drawString(scoreNames.get(i) + "    Score: " + scores.get(i), 900, 100 + i * 40);
 			}
 		}
 		bs.show();
+	}
+	
+	// Method for calculating Leaderboard scores
+	// Currently organizes 2 arrays at once
+	// Probably a better way to do that :/
+	public void calcScores() {
+		scoreNames = new ArrayList<String>();
+		scores = new ArrayList<Integer>();
+		int temp;
+		String tempName;
+		for(int i = 0; i < threads.size(); i++) {
+			temp = 0;
+			tempName = "";
+			if(threads.get(i).getPlayer() != null) {
+				if (i == 0) {
+					scores.add(Integer.parseInt(threads.get(i).getScore()));
+					scoreNames.add(threads.get(i).getPlayer().getName());
+				}
+				else if(scores.get(i-1) >= Integer.parseInt(threads.get(i).getScore())) {
+					scores.add(Integer.parseInt(threads.get(i).getScore()));
+					scoreNames.add(threads.get(i).getPlayer().getName());
+				}
+				else{
+					temp = scores.get(i-1);
+					tempName = scoreNames.get(i-1);
+					scores.remove(i-1);
+					scoreNames.remove(i-1);
+					scores.add(Integer.parseInt(threads.get(i).getScore()));
+					scoreNames.add(threads.get(i).getPlayer().getName());
+					scores.add(temp);
+					scoreNames.add(tempName);
+				}
+			}
+		}
 	}
 }

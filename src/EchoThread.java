@@ -13,6 +13,7 @@ public class EchoThread extends Thread {
     
     private String information = "";
     private boolean connected;
+    private String score = "0";
     
     private Player player;
     
@@ -56,11 +57,15 @@ public class EchoThread extends Thread {
                 	player.update(line);
                 }
                 else if(line.contains("DEATH:")){
+                	score = "0";
                 	String deadEnemy = line.substring(line.indexOf(":") + 1);
                 	if(player.getName().equals(deadEnemy)){
                 		// Send message to all other clients to remove from enemy list
                 		sendDeathMessage();
                 	}
+                }
+                else if (line.contains("SCORE:")) {	//Score info sent!
+                	score = line.substring(line.indexOf(':') + 1);
                 }
                 else {
                     out.writeBytes(line + "\n\r");
@@ -142,5 +147,9 @@ public class EchoThread extends Thread {
     
     public Player getPlayer(){
     	return player;
+    }
+    
+    public String getScore() {
+    	return score;
     }
 }
