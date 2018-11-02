@@ -69,7 +69,6 @@ public class ThreadedEchoServer extends JFrame implements Runnable{
 
         }
         while (true) {
-        	//System.out.println("test");
             try {
                 socket = serverSocket.accept();
                 System.out.print("CLIENT CONNECTED\n");
@@ -161,7 +160,7 @@ public class ThreadedEchoServer extends JFrame implements Runnable{
 		for(int i = 0; i < threads.size(); i++){
 			if(threads.get(i).getPlayer() != null){
 				g.drawString(threads.get(i).getPlayer().getName() + "   :   " + threads.get(i).getPlayer().getX() + ":" + threads.get(i).getPlayer().getY(), 50, 100 + i * 40);
-				g.drawString(scoreNames.get(i) + "    Score: " + scores.get(i), 900, 100 + i * 40);
+				g.drawString(scoreNames.get(i) + "    Score: " + (scores.get(i) + 1), 900, 100 + i * 40);
 			}
 		}
 		bs.show();

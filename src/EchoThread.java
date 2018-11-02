@@ -132,9 +132,6 @@ public class EchoThread extends Thread {
     }
     
     public void sendSnacks(ArrayList<Snack> snacks){
-    	if(player != null){
-    		System.out.println(player.getName() + ":" + snacks.size());
-    	}
     	
     	if(snacks.size() <= 0){
     		return;
