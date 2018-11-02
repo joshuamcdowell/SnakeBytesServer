@@ -128,7 +128,9 @@ public class EchoThread extends Thread {
 			out.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		} catch(IndexOutOfBoundsException e) {
+    		e.printStackTrace();
+    	}
     }
     
     public void sendSnacks(ArrayList<Snack> snacks){

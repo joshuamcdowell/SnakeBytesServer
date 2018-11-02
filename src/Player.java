@@ -15,6 +15,7 @@ public class Player {
 	public Player(String name, int skin){
 		this.name = name;
 		this.skin = skin;
+		moved = true;
 		
 		System.out.println("Creating player " + name + ":" + skin);
 	}
