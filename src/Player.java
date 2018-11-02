@@ -4,6 +4,7 @@ public class Player {
 
 	private String name;
 	private int skin;
+	private boolean moved;
 	
 	//private int[][] body;
 	private ArrayList<PlayerBody> body = new ArrayList<PlayerBody>();
@@ -19,8 +20,16 @@ public class Player {
 	}
 	
 	public void update(String info){
-		x = Integer.parseInt(info.substring(info.indexOf('=') + 1, info.indexOf(',')));
-		y = Integer.parseInt(info.substring(info.indexOf(',') + 1, info.indexOf("*")));
+		int dx = Integer.parseInt(info.substring(info.indexOf('=') + 1, info.indexOf(',')));
+		int dy = Integer.parseInt(info.substring(info.indexOf(',') + 1, info.indexOf("*")));
+		
+		if(dx == x && dy == y){
+			moved = false;
+		}
+		else{
+			moved = true;
+		}
+		
 		int bodyLength = Integer.parseInt(info.substring(info.indexOf("*") + 1, info.indexOf("%")));
 		if(bodyLength > 0){
 			body = new ArrayList<PlayerBody>();
@@ -62,5 +71,9 @@ public class Player {
 	
 	public int getY(){
 		return y;
+	}
+	
+	public boolean hasMoved(){
+		return moved;
 	}
 }

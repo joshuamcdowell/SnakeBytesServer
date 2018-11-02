@@ -113,7 +113,7 @@ public class ThreadedEchoServer extends JFrame implements Runnable{
 				}
 				for(int j = 0; j < threads.size(); j++){
 					if(i != j){
-						if(threads.get(i).getPlayer() != null && threads.get(j).getPlayer() != null){	
+						if(threads.get(i).getPlayer() != null && threads.get(j).getPlayer() != null && threads.get(i).getPlayer().hasMoved()){	
 							threads.get(i).sendPlayerInfo(threads.get(j).getPlayer());
 						}
 					}
