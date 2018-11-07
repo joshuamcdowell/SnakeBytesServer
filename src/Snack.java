@@ -25,7 +25,7 @@ public class Snack {
 		return id;
 	}
 	
-	public void generateID(){
+	public void generateID(){ // Generates a unique 15 digit ID
 		id = "";
 		Random rand = new Random();
 		for(int i = 0; i < 16; i++){

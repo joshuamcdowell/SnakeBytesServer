@@ -52,7 +52,6 @@ public class ThreadedEchoServer extends JFrame implements Runnable{
 			System.out.println("IP Address:- " + inetAddress.getHostAddress());
 	        System.out.println("Host Name:- " + inetAddress.getHostName());
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
@@ -113,7 +112,7 @@ public class ThreadedEchoServer extends JFrame implements Runnable{
 				}
 				for(int j = 0; j < threads.size(); j++){
 					if(i != j){
-						if(threads.get(i).getPlayer() != null && threads.get(j).getPlayer() != null && threads.get(i).getPlayer().hasMoved()){	
+						if(threads.get(i).getPlayer() != null && threads.get(j).getPlayer() != null){	
 							threads.get(i).sendPlayerInfo(threads.get(j).getPlayer());
 						}
 					}
@@ -160,11 +159,7 @@ public class ThreadedEchoServer extends JFrame implements Runnable{
 		for(int i = 0; i < threads.size(); i++){
 			if(threads.get(i).getPlayer() != null){
 				g.drawString(threads.get(i).getPlayer().getName() + "   :   " + threads.get(i).getPlayer().getX() + ":" + threads.get(i).getPlayer().getY(), 50, 100 + i * 40);
-				try {
-					g.drawString(scoreNames.get(i) + "    Score: " + (scores.get(i) + 1), 900, 100 + i * 40);
-				} catch (IndexOutOfBoundsException e) {
-					e.printStackTrace();
-				}
+				g.drawString(scoreNames.get(i) + "    Score: " + (scores.get(i) + 1), 900, 100 + i * 40);
 			}
 		}
 		bs.show();

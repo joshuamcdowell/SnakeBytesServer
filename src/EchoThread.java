@@ -41,7 +41,6 @@ public class EchoThread extends Thread {
             try {
                 line = brinp.readLine();
                 information = line;
-                //System.out.println(line);
                 if ((line == null) || line.equalsIgnoreCase("QUIT")) {
                 	connected = false;
                     socket.close();
@@ -128,9 +127,7 @@ public class EchoThread extends Thread {
 			out.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} catch(IndexOutOfBoundsException e) {
-    		e.printStackTrace();
-    	}
+		}
     }
     
     public void sendSnacks(ArrayList<Snack> snacks){
